@@ -2,7 +2,7 @@ import { VoiceConnection } from 'discord.js';
 import { IENV } from './defs/defs';
 import { SOUND_BOARD } from './sfx';
 import { TERROR_ID, MEMBER_IDS } from '../env';
-import { initiateClient, disconnectClient } from './bot';
+import { rebootClient } from './bot';
 
 export function loadDirectMessagServices(ENV, generalVoiceConnection) {
     sendDMResponse(ENV, generalVoiceConnection);
@@ -23,17 +23,8 @@ export async function sendDMResponse(ENV: IENV, generalVoiceConnection: VoiceCon
                     dmChannel.send(`===SFX LIST=== ${logSFX(SOUND_BOARD)}`);
                     return;
                 case '!reboot':
-                    if(message.author.id === MEMBER_IDS.VICTOR) {
-                        await disconnectClient();
-                        await initiateClient();
-
-                        const victor = await ENV.CLIENT.users.fetch(MEMBER_IDS.VICTOR);
-                        const victorDM = await victor.createDM();
-                        victorDM.send('Bootup complete.');
-                
-                        return;
-                    }
-                    dmChannel.send(`'${messageContent}' is not a command. Type !help for help.`);
+                    console.log(message.author.username, ' initated reboot.');
+                    await rebootClient();
                     return;
             }
 
@@ -63,4 +54,6 @@ function logSFX(SFX: Map<string, string>) {
 
 const help: string = `== HELP MENU ==
 !help sfx: lists all sfx
-!sfx [sound effect]: plays desired sound effect`;
+!sfx [sound effect]: plays desired sound effect
+!reboot: reboots Terror. If this doesn't fix bugs, let Victork now
+`;

@@ -47,3 +47,8 @@ export async function disconnectClient() {
     await ENV.CLIENT.destroy();
     delete ENV.CLIENT;
 }
+
+export async function rebootClient() {
+    await disconnectClient();
+    await initiateClient();
+}
