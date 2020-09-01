@@ -1,4 +1,4 @@
-import { Server } from '../common/defs';
+import { Server } from '../common/server';
 
 export class QuanServer extends Server {
 
