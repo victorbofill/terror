@@ -6,7 +6,7 @@ import { VOICE_CHANNEL_IDS, SERVER_IDS } from '../../../env';
 
 import { loadVoiceConnection } from './voice-connection';
 import { loadDirectMessagServices } from './direct-messages';
-import { loadSounds } from './sfx/index';
+import { loadTheBoysSounds } from './sfx/index';
 
 export class TheBoysServer implements IBoysServer {
     mClientManager: ClientManager;
@@ -25,6 +25,6 @@ export class TheBoysServer implements IBoysServer {
 
         loadVoiceConnection(this.mGeneralVoiceChannel, this.mGeneralVoiceConnection, this.mClientManager);
         loadDirectMessagServices(this.mGeneralVoiceConnection, this.mClientManager);
-        loadSounds();
+        loadTheBoysSounds();
     }
 }

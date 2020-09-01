@@ -23,7 +23,7 @@ export async function sendDMResponse(voiceConnection: VoiceConnection, clientMan
                     return;
                 case '!reboot':
                     console.log(message.author.username, ' initated reboot.');
-                    await this.rebootClient();
+                    await clientManager.rebootClient();
                     return;
             }
 

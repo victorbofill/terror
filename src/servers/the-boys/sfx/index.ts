@@ -21,7 +21,7 @@ export const SERVER_SFX = new Map([
 
 export const SOUND_BOARD = new Map();
 
-export function loadSounds() {
+export function loadTheBoysSounds() {
     const soundBoardDir = `${sfxDir}\\sound-board`;
 
     fs.readdir(soundBoardDir, (err, items) => {

@@ -1,6 +1,8 @@
 import { Client, DMChannel } from 'discord.js';
 import { IClientManager } from './clientManager-defs';
-import { API_KEY, VICTOR_ID } from '../../env';
+import { API_KEY, VICTOR_ID, SERVER_IDS } from '../../env';
+
+import { TheBoysServer } from '../servers/the-boys/the-boys';
 
 export class ClientManager implements IClientManager {
     mClient = undefined;
@@ -27,12 +29,18 @@ export class ClientManager implements IClientManager {
         this.mClient = new Client();
         await this.mClient.login(API_KEY)
 
-        console.log('Connected as ' + this.mClient.user.tag);
+        this.mClient.on('ready', async () => {
+            console.log('Connected as ' + this.mClient.user.tag);
+    
+            const victor = await this.mClient.users.fetch(VICTOR_ID);
+            this.mVictorDM = await victor.createDM();
+    
+            this.loadErrorHandler();
 
-        const victor = await this.mClient.users.fetch(VICTOR_ID);
-        this.mVictorDM = await victor.createDM();
+            const theBoyseServer = new TheBoysServer();
+            await theBoyseServer.init(this, SERVER_IDS.THE_BOYS);
+        })
 
-        this.loadErrorHandler();
     }
 
     async disconnectClient() {
