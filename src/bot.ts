@@ -1,13 +1,13 @@
 const Discord = require('discord.js');
 
 import { VoiceChannel, VoiceConnection } from 'discord.js';
-import { IENV } from './defs/defs';
+import { IENV } from './the boys/defs/defs';
 import { API_KEY, VOICE_CHANNEL_IDS, MEMBER_IDS } from '../env';
 
-import { loadVoiceConnection } from './voice-channel';
-import { loadDirectMessagServices } from './direct-messages';
-import { loadSounds } from './sfx/index';
-import { loadErrorHandler } from './error-handler';
+import { loadVoiceConnection } from './the boys/voice-channel';
+import { loadDirectMessagServices } from './the boys/direct-messages';
+import { loadSounds } from './the boys/sfx/index';
+import { loadErrorHandler } from './the boys/error-handler';
 
 const ENV: IENV = {
     CLIENT: undefined,

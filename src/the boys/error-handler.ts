@@ -1,5 +1,5 @@
 import { IENV } from './defs/defs';
-import { rebootClient } from './bot';
+import { rebootClient } from '../bot';
 
 export function loadErrorHandler(ENV: IENV) {
     ENV.CLIENT.on('error', async error => {

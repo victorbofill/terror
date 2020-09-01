@@ -1,8 +1,8 @@
 import { VoiceConnection } from 'discord.js';
 import { IENV } from './defs/defs';
 import { SOUND_BOARD } from './sfx';
-import { TERROR_ID, MEMBER_IDS } from '../env';
-import { rebootClient } from './bot';
+import { TERROR_ID } from '../../env';
+import { rebootClient } from '../bot';
 
 export function loadDirectMessagServices(ENV, generalVoiceConnection) {
     sendDMResponse(ENV, generalVoiceConnection);

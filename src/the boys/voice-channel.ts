@@ -3,7 +3,7 @@ const path = require('path');
 import { VoiceConnection } from 'discord.js';
 import { IENV } from './defs/defs';
 import { ENTRANCE_SFX, SERVER_SFX } from './sfx/index';
-import { MEMBER_IDS, TERROR_ID, VOICE_CHANNEL_IDS } from '../env';
+import { MEMBER_IDS, TERROR_ID, VOICE_CHANNEL_IDS } from '../../env';
 
 export function loadVoiceConnection(ENV: IENV, generalVoiceConnection: VoiceConnection) {
     protections(ENV, generalVoiceConnection);
