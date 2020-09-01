@@ -1,15 +1,13 @@
 import { VoiceConnection } from 'discord.js';
-import { IENV } from './defs/defs';
 import { SOUND_BOARD } from './sfx';
 import { TERROR_ID } from '../../env';
-import { rebootClient } from '../bot';
 
-export function loadDirectMessagServices(ENV, generalVoiceConnection) {
-    sendDMResponse(ENV, generalVoiceConnection);
+export function loadDirectMessagServices(generalVoiceConnection) {
+    sendDMResponse(generalVoiceConnection);
 }
 
-export async function sendDMResponse(ENV: IENV, generalVoiceConnection: VoiceConnection) {
-    ENV.CLIENT.on('message', async message => {
+export async function sendDMResponse(generalVoiceConnection: VoiceConnection) {
+    this.mENV.CLIENT.on('message', async message => {
         const messageContent = message.content.toLowerCase();
         const dmChannel = message.channel;
         if(dmChannel.type === 'dm' && message.author.id !== TERROR_ID) {
@@ -24,7 +22,7 @@ export async function sendDMResponse(ENV: IENV, generalVoiceConnection: VoiceCon
                     return;
                 case '!reboot':
                     console.log(message.author.username, ' initated reboot.');
-                    await rebootClient();
+                    await this.rebootClient();
                     return;
             }
 

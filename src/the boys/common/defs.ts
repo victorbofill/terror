@@ -1,13 +1,11 @@
 import {
-    Client,
     VoiceChannel,
     DMChannel
 } from 'discord.js';
+import { IENV } from '../../common/defs';
 
-export interface IENV {
-    CLIENT: Client;
+export interface IBoysENV extends IENV {
     GENERAL_VOICE_CHANNEL: VoiceChannel,
     QUIET_PLACE_VOICE_CHANNEL: VoiceChannel,
     VICTOR_DM: DMChannel,
-    ERROR_HAS_REPEATED: boolean
 }
