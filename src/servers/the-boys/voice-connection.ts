@@ -27,7 +27,7 @@ function protections(voiceChannel: VoiceChannel, voiceConnection: VoiceConnectio
         if (!(newPresence.id === TERROR_ID)) return;
 
         // rejoin channel if moved
-        if(!(newPresence.channelID === VOICE_CHANNEL_IDS[THE_BOYS].GENERAL)) {
+        if(!(newPresence.channelID === VOICE_CHANNEL_IDS.get(THE_BOYS).GENERAL)) {
             const voiceConnection = await voiceChannel.join();
             voiceConnection.play(SERVER_SFX.get(`don't touch me`));
         }
@@ -37,7 +37,7 @@ function protections(voiceChannel: VoiceChannel, voiceConnection: VoiceConnectio
 function playOutroSFX(voiceConnection: VoiceConnection, clientManager: ClientManager) {
     // play sfx if someone leaves the channel due to afk
     clientManager.getClient().on('voiceStateUpdate', async (oldPresence, newPresence) => {
-        if (newPresence.id !== TERROR_ID && newPresence.channelID === VOICE_CHANNEL_IDS[THE_BOYS].SNORING_CHANNEL) {
+        if (newPresence.id !== TERROR_ID && newPresence.channelID === VOICE_CHANNEL_IDS.get(THE_BOYS).SNORING_CHANNEL) {
             voiceConnection.play(SERVER_SFX.get('he dead'));
         } else { 
             return;
@@ -48,31 +48,33 @@ function playOutroSFX(voiceConnection: VoiceConnection, clientManager: ClientMan
 
 // user connect sfx
 function playConnectionSFX(voiceConnection: VoiceConnection, clientManager: ClientManager) {
+    const theBoys = MEMBER_IDS.get(THE_BOYS);
+
     // play custom sfx for core group members
     clientManager.getClient().on('voiceStateUpdate', async (oldState, newState) => {
         if((oldState.channel?.members?.size < newState.channel?.members?.size
             || oldState.channel?.members?.size === undefined)
             && newState.channel?.members?.size > 2
-            && Object.values(MEMBER_IDS).includes(newState.id)
+            && Object.values(theBoys).includes(newState.id)
         ) {
             let introSound;
             switch (newState.id) {
-                case MEMBER_IDS[THE_BOYS].JACY:
+                case MEMBER_IDS.get(THE_BOYS).JACY:
                     introSound = ENTRANCE_SFX.JACY;
                     break;
-                case MEMBER_IDS[THE_BOYS].KASEY:
+                case MEMBER_IDS.get(THE_BOYS).KASEY:
                     introSound = ENTRANCE_SFX.KASEY;
                     break;
-                case MEMBER_IDS[THE_BOYS].SAM:
+                case MEMBER_IDS.get(THE_BOYS).SAM:
                     introSound = ENTRANCE_SFX.SAM;
                     break;
-                case MEMBER_IDS[THE_BOYS].AUSTIN:
+                case MEMBER_IDS.get(THE_BOYS).AUSTIN:
                     introSound = ENTRANCE_SFX.AUSTIN;
                     break;
-                case MEMBER_IDS[THE_BOYS].DEAN:
+                case MEMBER_IDS.get(THE_BOYS).DEAN:
                     introSound = ENTRANCE_SFX.DEAN;
                     break;
-                case MEMBER_IDS[THE_BOYS].VICTOR:
+                case MEMBER_IDS.get(THE_BOYS).VICTOR:
                     introSound = ENTRANCE_SFX.VICTOR;
                     break;
             }
