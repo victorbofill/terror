@@ -28,19 +28,18 @@ export class ClientManager implements IClientManager {
     async initiateClient() {
         this.mClient = new Client();
         await this.mClient.login(API_KEY)
+    }
 
-        this.mClient.on('ready', async () => {
-            console.log('Connected as ' + this.mClient.user.tag);
-    
-            const victor = await this.mClient.users.fetch(VICTOR_ID);
-            this.mVictorDM = await victor.createDM();
-    
-            this.loadErrorHandler();
+    async onClientReady() {
+        console.log('Connected as ' + this.mClient.user.tag);
 
-            const theBoyseServer = new TheBoysServer();
-            await theBoyseServer.init(this, SERVER_IDS.THE_BOYS);
-        })
+        const victor = await this.mClient.users.fetch(VICTOR_ID);
+        this.mVictorDM = await victor.createDM();
 
+        this.loadErrorHandler();
+
+        const theBoyseServer = new TheBoysServer();
+        await theBoyseServer.init(this, SERVER_IDS.THE_BOYS);
     }
 
     async disconnectClient() {
