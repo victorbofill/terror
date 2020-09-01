@@ -1,16 +1,14 @@
 const Discord = require('discord.js');
+import { ClientManager } from './clientManager/clientManager';
+import { TheBoysServer } from './servers/the boys/the-boys';
+import { SERVER_IDS } from '../env';
 
-import { QuanServer } from './quan/server';
-import { TheBoysServer } from './the boys/server';
+async function initiateBot() {
+    const clientManager = await new ClientManager();
+    await clientManager.init();
 
-import { SERVER_IDS } from './common/consts';
-
-// const quan = new QuanServer(SERVER_IDS.QUAN);
-const theBoys = new TheBoysServer(SERVER_IDS.THE_BOYS);
-
-load();
-
-async function load() {
-    // quan.initiateClient(SERVER_IDS.QUAN);
-    theBoys.initiateClient();
+    const theBoyseServer = new TheBoysServer();
+    await theBoyseServer.init(clientManager, SERVER_IDS.THE_BOYS);
 }
+
+initiateBot();

@@ -1,13 +1,14 @@
 import { VoiceConnection } from 'discord.js';
+import { ClientManager } from '../../clientManager/clientManager';
 import { SOUND_BOARD } from './sfx';
-import { TERROR_ID } from '../../env';
+import { TERROR_ID } from '../../../env';
 
-export function loadDirectMessagServices(generalVoiceConnection) {
-    sendDMResponse(generalVoiceConnection);
+export function loadDirectMessagServices(voiceConnection: VoiceConnection, clientManager: ClientManager) {
+    sendDMResponse(voiceConnection, clientManager);
 }
 
-export async function sendDMResponse(generalVoiceConnection: VoiceConnection) {
-    this.mENV.CLIENT.on('message', async message => {
+export async function sendDMResponse(voiceConnection: VoiceConnection, clientManager: ClientManager) {
+    clientManager.getClient().on('message', async message => {
         const messageContent = message.content.toLowerCase();
         const dmChannel = message.channel;
         if(dmChannel.type === 'dm' && message.author.id !== TERROR_ID) {
@@ -30,7 +31,7 @@ export async function sendDMResponse(generalVoiceConnection: VoiceConnection) {
                 const command = messageContent.substring(5);
                 const SFXPath = SOUND_BOARD.get(command.toLowerCase());
                 if(SFXPath) {
-                    generalVoiceConnection.play(SFXPath);
+                    voiceConnection.play(SFXPath);
                 } else {
                     dmChannel.send(`Sound effect '${command}' not found. Type "!help sfx" for a list of sound effects.`);
                 }
