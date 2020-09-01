@@ -1,5 +1,5 @@
 import { Client, DMChannel } from 'discord.js';
-import { IClientManager } from './defs';
+import { IClientManager } from './clientManager-defs';
 import { API_KEY, VICTOR_ID } from '../../env';
 
 export class ClientManager implements IClientManager {

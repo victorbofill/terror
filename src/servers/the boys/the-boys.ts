@@ -1,5 +1,5 @@
 import { VoiceChannel, VoiceConnection } from 'discord.js';
-import { IBoysServer } from './defs/defs';
+import { IBoysServer } from './defs/the-boys-defs';
 import { ClientManager } from '../../clientManager/clientManager';
 
 import { VOICE_CHANNEL_IDS, SERVER_IDS } from '../../../env';

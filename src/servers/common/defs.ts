@@ -1,5 +1,5 @@
 import { SERVER_IDS } from '../../../env';
-import { IClientManager } from '../../clientManager/defs';
+import { IClientManager } from '../../clientManager/clientManager-defs';
 import { ClientManager } from '../../clientManager/clientManager';
 
 export interface IServer {
