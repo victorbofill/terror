@@ -52,8 +52,10 @@ function playConnectionSFX(voiceConnection: VoiceConnection, clientManager: Clie
 
     // play custom sfx for core group members
     clientManager.getClient().on('voiceStateUpdate', async (oldState, newState) => {
+
         if((oldState.channel?.members?.size < newState.channel?.members?.size
             || oldState.channel?.members?.size === undefined)
+            && newState.channel?.members?.size > 2
             && Object.values(theBoys).includes(newState.id)
         ) {
             let introSound;
