@@ -1,5 +1,21 @@
-// import { Server } from '../../clientManager/clientManager';
+import { VoiceChannel, VoiceConnection } from 'discord.js';
+import { IQuanServer } from './defs/quan-defs';
+import { ClientManager } from '../../clientManager/clientManager';
 
-// export class QuanServer extends Server {
+import { VOICE_CHANNEL_IDS, SERVER_IDS } from '../../../env';
 
-// }
+export class QuanServer implements IQuanServer {
+    mClientManager: ClientManager;
+    mServerID: SERVER_IDS;
+    mQuanVoiceConnection: VoiceConnection;
+    mQuanVoiceChannel: VoiceChannel;
+
+    async init(clientManager: ClientManager, serverID: SERVER_IDS) {
+        this.mClientManager = clientManager;
+        this.mServerID = serverID;
+
+        const voiceChannelID = VOICE_CHANNEL_IDS.get(this.mServerID).QUAN;
+        this.mQuanVoiceChannel = await this.mClientManager.getClient().channels.fetch(voiceChannelID) as VoiceChannel;
+        this.mQuanVoiceConnection = await this.mQuanVoiceChannel.join();
+    }
+}

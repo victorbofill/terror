@@ -3,11 +3,14 @@ import { IClientManager } from './clientManager-defs';
 import { API_KEY, VICTOR_ID, SERVER_IDS } from '../../env';
 
 import { TheBoysServer } from '../servers/the-boys/the-boys';
+import { QuanServer } from '../servers/quan/quan';
 
 export class ClientManager implements IClientManager {
     mClient = undefined;
     mErrorHasRepeated = false;
     mVictorDM = undefined;
+    mQuanMembers = undefined;
+    mBoysMembers = undefined;
 
     async init() {
         await this.initiateClient();
@@ -31,7 +34,8 @@ export class ClientManager implements IClientManager {
     }
 
     async onClientReady() {
-        console.log('Connected as ' + this.mClient.user.tag);
+        this.mBoysMembers = this.mClient.guilds.cache.get(SERVER_IDS.THE_BOYS).members.cache.keyArray();
+        this.mQuanMembers = this.mClient.guilds.cache.get(SERVER_IDS.QUAN).members.cache.keyArray();
 
         const victor = await this.mClient.users.fetch(VICTOR_ID);
         this.mVictorDM = await victor.createDM();
@@ -40,6 +44,11 @@ export class ClientManager implements IClientManager {
 
         const theBoyseServer = new TheBoysServer();
         await theBoyseServer.init(this, SERVER_IDS.THE_BOYS);
+
+        const quanServer = new QuanServer();
+        await quanServer.init(this, SERVER_IDS.QUAN);
+
+        console.log('Connected as ' + this.mClient.user.tag);
     }
 
     async disconnectClient() {

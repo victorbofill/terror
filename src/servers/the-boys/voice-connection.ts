@@ -1,5 +1,3 @@
-const path = require('path');
-
 import { VoiceConnection, VoiceChannel } from 'discord.js';
 import { ENTRANCE_SFX, SERVER_SFX } from './sfx/index';
 import { MEMBER_IDS, VOICE_CHANNEL_IDS, SERVER_IDS, TERROR_ID } from '../../../env';
@@ -55,8 +53,9 @@ function playConnectionSFX(voiceConnection: VoiceConnection, clientManager: Clie
 
         if((oldState.channel?.members?.size < newState.channel?.members?.size
             || oldState.channel?.members?.size === undefined)
-            && newState.channel?.members?.size > 2
+            // && newState.channel?.members?.size > 2
             && Object.values(theBoys).includes(newState.id)
+            && newState.channelID === VOICE_CHANNEL_IDS.get(THE_BOYS).GENERAL
         ) {
             let introSound;
             switch (newState.id) {

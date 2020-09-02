@@ -11,7 +11,12 @@ export async function sendDMResponse(voiceConnection: VoiceConnection, clientMan
     clientManager.getClient().on('message', async message => {
         const messageContent = message.content.toLowerCase();
         const dmChannel = message.channel;
-        if(dmChannel.type === 'dm' && message.author.id !== TERROR_ID) {
+
+        if(
+            dmChannel.type === 'dm'
+            && message.author.id !== TERROR_ID
+            && clientManager.mBoysMembers.includes(message.author.id)
+        ) {
             console.log(`Message recieved from ${message.author.username}: "${messageContent}"`);
 
             switch(messageContent.toLowerCase()) {

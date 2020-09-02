@@ -4,6 +4,8 @@ export interface IClientManager {
     mClient: Client;
     mErrorHasRepeated: boolean;
     mVictorDM: DMChannel;
+    mBoysMembers: any;
+    mQuanMembers: any;
 
     getClient(): Client;
 
