@@ -9,42 +9,42 @@ export function loadDirectMessagServices(voiceConnection: VoiceConnection, clien
 
 export async function sendDMResponse(voiceConnection: VoiceConnection, clientManager: ClientManager) {
     clientManager.getClient().on('message', async message => {
-        const messageContent = message.content.toLowerCase();
-        const dmChannel = message.channel;
-
-        if(
-            dmChannel.type === 'dm'
+        if(!(
+            message.channel.type === 'dm'
             && message.author.id !== TERROR_ID
             && clientManager.mBoysMembers.includes(message.author.id)
-        ) {
-            console.log(`Message recieved from ${message.author.username}: "${messageContent}"`);
+        )) return;
 
-            switch(messageContent.toLowerCase()) {
-                case '!help':
-                    dmChannel.send(help)
-                    return;
-                case '!help sfx':
-                    dmChannel.send(`===SFX LIST=== ${logSFX(SOUND_BOARD)}`);
-                    return;
-                case '!reboot':
-                    console.log(message.author.username, ' initated reboot.');
-                    await clientManager.rebootClient();
-                    return;
-            }
+        const dmChannel = message.channel;
+        const messageContent = message.content.toLowerCase();
 
-            if(messageContent.toLowerCase().startsWith('!sfx ')) {
-                const command = messageContent.substring(5);
-                const SFXPath = SOUND_BOARD.get(command.toLowerCase());
-                if(SFXPath) {
-                    voiceConnection.play(SFXPath);
-                } else {
-                    dmChannel.send(`Sound effect '${command}' not found. Type "!help sfx" for a list of sound effects.`);
-                }
+        console.log(`Message recieved from ${message.author.username}: "${messageContent}"`);
+
+        switch(messageContent.toLowerCase()) {
+            case '!help':
+                dmChannel.send(help)
                 return;
-            }
-
-            dmChannel.send(`'${messageContent}' is not a command. Type !help for help.`)
+            case '!help sfx':
+                dmChannel.send(`===SFX LIST=== ${logSFX(SOUND_BOARD)}`);
+                return;
+            case '!reboot':
+                console.log(message.author.username, ' initated reboot.');
+                await clientManager.rebootClient();
+                return;
         }
+
+        if(messageContent.toLowerCase().startsWith('!sfx ')) {
+            const command = messageContent.substring(5);
+            const SFXPath = SOUND_BOARD.get(command.toLowerCase());
+            if(SFXPath) {
+                voiceConnection.play(SFXPath);
+            } else {
+                dmChannel.send(`Sound effect '${command}' not found. Type "!help sfx" for a list of sound effects.`);
+            }
+            return;
+        }
+
+        dmChannel.send(`'${messageContent}' is not a command. Type !help for help.`)
     });
 }
 
