@@ -31,24 +31,25 @@ export class ClientManager implements IClientManager {
     async initiateClient() {
         this.mClient = new Client();
         await this.mClient.login(API_KEY)
-    }
 
-    async onClientReady() {
-        this.mBoysMembers = this.mClient.guilds.cache.get(SERVER_IDS.THE_BOYS).members.cache.keyArray();
-        this.mQuanMembers = this.mClient.guilds.cache.get(SERVER_IDS.QUAN).members.cache.keyArray();
-
-        const victor = await this.mClient.users.fetch(VICTOR_ID);
-        this.mVictorDM = await victor.createDM();
-
-        this.loadErrorHandler();
-
-        const theBoyseServer = new TheBoysServer();
-        await theBoyseServer.init(this, SERVER_IDS.THE_BOYS);
-
-        const quanServer = new QuanServer();
-        await quanServer.init(this, SERVER_IDS.QUAN);
-
-        console.log('Connected as ' + this.mClient.user.tag);
+        this.mClient.on('ready', async () => {
+            this.mBoysMembers = this.mClient.guilds.cache.get(SERVER_IDS.THE_BOYS).members.cache.keyArray();
+            this.mQuanMembers = this.mClient.guilds.cache.get(SERVER_IDS.QUAN).members.cache.keyArray();
+    
+            const victor = await this.mClient.users.fetch(VICTOR_ID);
+            this.mVictorDM = await victor.createDM();
+    
+            this.loadErrorHandler();
+    
+            const theBoyseServer = new TheBoysServer();
+            await theBoyseServer.init(this, SERVER_IDS.THE_BOYS);
+    
+            // const quanServer = new QuanServer();
+            // await quanServer.init(this, SERVER_IDS.QUAN);
+    
+            console.log('Connected as ' + this.mClient.user.tag);
+    
+        })
     }
 
     async disconnectClient() {
