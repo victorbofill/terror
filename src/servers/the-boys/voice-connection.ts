@@ -53,7 +53,7 @@ function playConnectionSFX(voiceConnection: VoiceConnection, clientManager: Clie
 
         if((oldState.channel?.members?.size < newState.channel?.members?.size
             || oldState.channel?.members?.size === undefined)
-            // && newState.channel?.members?.size > 2
+            && newState.channel?.members?.size > 2
             && Object.values(theBoys).includes(newState.id)
             && newState.channelID === VOICE_CHANNEL_IDS.get(THE_BOYS).GENERAL
         ) {
