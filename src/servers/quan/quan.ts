@@ -1,14 +1,16 @@
-import { VoiceChannel, VoiceConnection } from 'discord.js';
+import { VoiceChannel, VoiceConnection, TextChannel } from 'discord.js';
 import { IQuanServer } from './defs/quan-defs';
 import { ClientManager } from '../../clientManager/clientManager';
 
 import { VOICE_CHANNEL_IDS, SERVER_IDS } from '../../../env';
+import { loadDiceRoller } from '../common/dice-roller';
 
 export class QuanServer implements IQuanServer {
     mClientManager: ClientManager;
     mServerID: SERVER_IDS;
     mQuanVoiceConnection: VoiceConnection;
     mQuanVoiceChannel: VoiceChannel;
+    mQuanChatChannel: TextChannel;
 
     async init(clientManager: ClientManager, serverID: SERVER_IDS) {
         this.mClientManager = clientManager;
@@ -17,5 +19,7 @@ export class QuanServer implements IQuanServer {
         const voiceChannelID = VOICE_CHANNEL_IDS.get(this.mServerID).QUAN;
         this.mQuanVoiceChannel = await this.mClientManager.getClient().channels.fetch(voiceChannelID) as VoiceChannel;
         this.mQuanVoiceConnection = await this.mQuanVoiceChannel.join();
+
+        loadDiceRoller(this.mClientManager, this.mServerID);
     }
 }

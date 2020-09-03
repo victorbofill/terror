@@ -59,5 +59,5 @@ function logSFX(SFX: Map<string, string>) {
 const help: string = `== HELP MENU ==
 !help sfx: lists all sfx
 !sfx [sound effect]: plays desired sound effect
-!reboot: reboots Terror. If this doesn't fix bugs, let Victork now
+!reboot: reboots Terror. If this doesn't fix bugs, let Victor now
 `;

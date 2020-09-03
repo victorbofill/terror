@@ -44,8 +44,8 @@ export class ClientManager implements IClientManager {
             const theBoyseServer = new TheBoysServer();
             await theBoyseServer.init(this, SERVER_IDS.THE_BOYS);
     
-            // const quanServer = new QuanServer();
-            // await quanServer.init(this, SERVER_IDS.QUAN);
+            const quanServer = new QuanServer();
+            await quanServer.init(this, SERVER_IDS.QUAN);
     
             console.log('Connected as ' + this.mClient.user.tag);
     
