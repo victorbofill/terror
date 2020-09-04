@@ -66,7 +66,7 @@ export function sendDMResponse(clientManager: ClientManager, serverID: SERVER_ID
             const user = await message.guild.members.fetch(message.author.id);
             const nickname: string = user.nickname ? user.nickname: message.author.username;
 
-            if(serverID === SERVER_IDS.THE_BOYS) {
+            if(serverID === SERVER_IDS.THE_BOYS && type === 10) {
                 successDisplay = `Successes: ${successes}     `;
                 critDisplay = `Crits: ${crits}     \n`;
 
