@@ -25,7 +25,10 @@ function protections(voiceChannel: VoiceChannel, voiceConnection: VoiceConnectio
         if (!(newPresence.id === TERROR_ID)) return;
 
         // rejoin channel if moved
-        if(!(newPresence.channelID === VOICE_CHANNEL_IDS.get(THE_BOYS).GENERAL)) {
+        if((newPresence.sessionID === oldPresence.sessionID)
+            && oldPresence.channelID
+            && newPresence.channelID !== VOICE_CHANNEL_IDS.get(THE_BOYS).GENERAL
+        ) {
             const voiceConnection = await voiceChannel.join();
             voiceConnection.play(SERVER_SFX.get(`don't touch me`));
         }
