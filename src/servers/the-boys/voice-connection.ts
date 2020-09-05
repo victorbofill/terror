@@ -16,6 +16,7 @@ function protections(voiceChannel: VoiceChannel, voiceConnection: VoiceConnectio
     voiceConnection.on('disconnect', async () => {
         // reconnect if disconnected
         if(!voiceChannel.members.get(TERROR_ID)) {
+            console.log('Somsone disconnected me!')
             const voiceConnection = await voiceChannel.join();
             voiceConnection.play(SERVER_SFX.get(`don't touch me`));
         }
@@ -29,6 +30,7 @@ function protections(voiceChannel: VoiceChannel, voiceConnection: VoiceConnectio
             && oldPresence.channelID
             && newPresence.channelID !== VOICE_CHANNEL_IDS.get(THE_BOYS).GENERAL
         ) {
+            console.log('Someone force-moved me!')
             const voiceConnection = await voiceChannel.join();
             voiceConnection.play(SERVER_SFX.get(`don't touch me`));
         }
@@ -39,6 +41,7 @@ function playOutroSFX(voiceConnection: VoiceConnection, clientManager: ClientMan
     // play sfx if someone leaves the channel due to afk
     clientManager.getClient().on('voiceStateUpdate', async (oldPresence, newPresence) => {
         if (newPresence.id !== TERROR_ID && newPresence.channelID === VOICE_CHANNEL_IDS.get(THE_BOYS).SNORING_CHANNEL) {
+            console.log('Someone died and went to the snoring channel')
             voiceConnection.play(SERVER_SFX.get('he dead'));
         } else { 
             return;
@@ -63,18 +66,23 @@ function playConnectionSFX(voiceConnection: VoiceConnection, clientManager: Clie
             let introSound;
             switch (newState.id) {
                 case MEMBER_IDS.get(THE_BOYS).JACY:
+                    console.log('Jacy logged in')
                     introSound = ENTRANCE_SFX.JACY;
                     break;
                 case MEMBER_IDS.get(THE_BOYS).KASEY:
+                    console.log('Kasey logged in')
                     introSound = ENTRANCE_SFX.KASEY;
                     break;
                 case MEMBER_IDS.get(THE_BOYS).SAM:
+                    console.log('Sam logged in')
                     introSound = ENTRANCE_SFX.SAM;
                     break;
                 case MEMBER_IDS.get(THE_BOYS).AUSTIN:
+                    console.log('Austin logged in')
                     introSound = ENTRANCE_SFX.AUSTIN;
                     break;
                 case MEMBER_IDS.get(THE_BOYS).DEAN:
+                    console.log('Dean logged in')
                     introSound = ENTRANCE_SFX.DEAN;
                     break;
                 case MEMBER_IDS.get(THE_BOYS).VICTOR:
