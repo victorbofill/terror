@@ -15,15 +15,38 @@ export function sendDMResponse(clientManager: ClientManager, serverID: SERVER_ID
 
         const messageContent = message.content.toLowerCase();
 
+        // coin toss
+        if(messageContent === '!cointoss') {
+            let result: string;
+            var prob1 = Math.floor(Math.random() * 2) + 1;
+            var prob2 = Math.floor(Math.random() * 2) + 1;
+
+            result = prob1 === prob2 ? 'Heads!' : 'Tails!';
+
+            message.channel.send(result);
+            return;
+        }
+
         // dice roller
         if(messageContent.startsWith('!roll ')) {
             const rollInput = messageContent.slice(6);
             rollInput.replace(' ', '');
  
-            let [numberOfDice, type]:any = rollInput.replace(' ', '').split('d');
+            let [numberOfDice, typeAndModifier]:any = rollInput.replace(' ', '').split('d');
             let error = `I'm sorry, I couldn't parse that as a dice roll :\\ Expected format is #d#.`;
 
-            if(!numberOfDice || !type) {
+            if(!numberOfDice || !typeAndModifier) {
+                message.channel.send(error);
+                return;
+            }
+
+            let operator: string;
+            if(typeAndModifier.includes('+')) operator = '+';
+            if(typeAndModifier.includes('-')) operator = '-';
+
+            let [type, modifier]:any = typeAndModifier.split(operator);
+
+            if(modifier && typeof modifier !== 'number' ) {
                 message.channel.send(error);
                 return;
             }
@@ -36,13 +59,15 @@ export function sendDMResponse(clientManager: ClientManager, serverID: SERVER_ID
                 return;
             }
 
-            let highestResult: number = 0;
+            let highestResult: any = 0;
             const results: any[] = [];
-            let sum: number = 0;
+            let sum: any = 0;
             let successes: number = 0;
             let successDisplay: string = '';
             let crits: number = 0;
             let critDisplay: string = '';
+            let modifiedHighest: string = '';
+            let modifiedSum: string = '';
 
             while(n) {
                 const result = Math.floor(Math.random() * type + 1);
@@ -51,6 +76,13 @@ export function sendDMResponse(clientManager: ClientManager, serverID: SERVER_ID
                 sum += result;
                 if(result > 5 && type === 10 && serverID === SERVER_IDS.THE_BOYS) successes++
                 result === 10 && type === 10 && serverID === SERVER_IDS.THE_BOYS ? crits++ : n--
+            }
+
+            if(modifier) {
+                modifiedHighest = `${highestResult} ${operator} ${modifier}`;
+                highestResult = `${eval(modifiedHighest)} (${modifiedHighest})`;
+                modifiedSum = `${sum} ${operator} ${modifier}`;
+                sum = `${eval(modifiedSum)} (${modifiedSum})`;
             }
 
             if(results.length > 10) {
@@ -75,6 +107,7 @@ export function sendDMResponse(clientManager: ClientManager, serverID: SERVER_ID
             let response = `>>> == ${nickname}'s ${numberOfDice}d${type} results ==\n${successDisplay}${critDisplay}Highest: ${highestResult}     Sum: ${sum}     Results: [${results}]`;
 
             message.channel.send(response);
+            return;
         }
     });
 }
