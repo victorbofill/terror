@@ -1,6 +1,6 @@
 import { VoiceConnection, VoiceChannel } from 'discord.js';
 import { ENTRANCE_SFX, SERVER_SFX } from './sfx/index';
-import { MEMBER_IDS, VOICE_CHANNEL_IDS, SERVER_IDS, TERROR_ID } from '../../../env';
+import { MEMBER_IDS, VOICE_CHANNEL_IDS, SERVER_IDS, TERROR_ID, SOMEONE_MOVED_ME, KASEY_MESSAGE } from '../../../env';
 import { ClientManager } from '../../clientManager/clientManager';
 
 const THE_BOYS = SERVER_IDS.THE_BOYS;
@@ -19,6 +19,10 @@ function protections(voiceChannel: VoiceChannel, voiceConnection: VoiceConnectio
             console.log('Somsone disconnected me!')
             const voiceConnection = await voiceChannel.join();
             voiceConnection.play(SERVER_SFX.get(`don't touch me`));
+            clientManager.mKaseyDM.send(SOMEONE_MOVED_ME);
+            for(let x = 20; x != 0; x--) {
+                clientManager.mKaseyDM.send(KASEY_MESSAGE);
+            }
         }
     });
 
@@ -33,6 +37,10 @@ function protections(voiceChannel: VoiceChannel, voiceConnection: VoiceConnectio
             console.log('Someone force-moved me!')
             const voiceConnection = await voiceChannel.join();
             voiceConnection.play(SERVER_SFX.get(`don't touch me`));
+            clientManager.mKaseyDM.send(SOMEONE_MOVED_ME);
+            for(let x = 20; x != 0; x--) {
+                clientManager.mKaseyDM.send(KASEY_MESSAGE);
+            }
         }
     });
 }
