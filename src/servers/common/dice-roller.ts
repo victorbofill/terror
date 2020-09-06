@@ -45,11 +45,7 @@ export function sendDMResponse(clientManager: ClientManager, serverID: SERVER_ID
             if(typeAndModifier.includes('-')) operator = '-';
 
             let [type, modifier]:any = typeAndModifier.split(operator);
-
-            if(modifier && typeof modifier !== 'number' ) {
-                message.channel.send(error);
-                return;
-            }
+            modifier = parseInt(modifier);
 
             let n = parseInt(numberOfDice);
             type = parseInt(type);
