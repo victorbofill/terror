@@ -66,23 +66,18 @@ function playConnectionSFX(voiceConnection: VoiceConnection, clientManager: Clie
             let introSound;
             switch (newState.id) {
                 case MEMBER_IDS.get(THE_BOYS).JACY:
-                    console.log('Jacy logged in')
                     introSound = ENTRANCE_SFX.JACY;
                     break;
                 case MEMBER_IDS.get(THE_BOYS).KASEY:
-                    console.log('Kasey logged in')
                     introSound = ENTRANCE_SFX.KASEY;
                     break;
                 case MEMBER_IDS.get(THE_BOYS).SAM:
-                    console.log('Sam logged in')
                     introSound = ENTRANCE_SFX.SAM;
                     break;
                 case MEMBER_IDS.get(THE_BOYS).AUSTIN:
-                    console.log('Austin logged in')
                     introSound = ENTRANCE_SFX.AUSTIN;
                     break;
                 case MEMBER_IDS.get(THE_BOYS).DEAN:
-                    console.log('Dean logged in')
                     introSound = ENTRANCE_SFX.DEAN;
                     break;
                 case MEMBER_IDS.get(THE_BOYS).VICTOR:
