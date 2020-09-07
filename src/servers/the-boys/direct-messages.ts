@@ -2,6 +2,7 @@ import { VoiceConnection } from 'discord.js';
 import { ClientManager } from '../../clientManager/clientManager';
 import { SOUND_BOARD } from './sfx';
 import { TERROR_ID } from '../../../env';
+import { generateRollResult } from '../common/dice-roller';
 
 export function loadDirectMessagServices(voiceConnection: VoiceConnection, clientManager: ClientManager) {
     sendDMResponse(voiceConnection, clientManager);
@@ -9,11 +10,11 @@ export function loadDirectMessagServices(voiceConnection: VoiceConnection, clien
 
 export async function sendDMResponse(voiceConnection: VoiceConnection, clientManager: ClientManager) {
     clientManager.getClient().on('message', async message => {
-        if(!(
-            message.channel.type === 'dm'
-            && message.author.id !== TERROR_ID
-            && clientManager.mBoysMembers.includes(message.author.id)
-        )) return;
+        if(
+            message.channel.type !== 'dm'
+            || message.author.id === TERROR_ID
+            || !(clientManager.mBoysMembers.includes(message.author.id))
+        ) return;
 
         const dmChannel = message.channel;
         const messageContent = message.content.toLowerCase();
@@ -44,6 +45,12 @@ export async function sendDMResponse(voiceConnection: VoiceConnection, clientMan
             return;
         }
 
+        if(messageContent.toLowerCase().startsWith('!roll ')) {
+            const response = await generateRollResult(messageContent, message);
+            dmChannel.send(response);
+            return;
+        }
+
         dmChannel.send(`'${messageContent}' is not a command. Type !help for help.`)
     });
 }
@@ -59,5 +66,6 @@ function logSFX(SFX: Map<string, string>) {
 const help: string = `== HELP MENU ==
 !help sfx: lists all sfx
 !sfx [sound effect]: plays desired sound effect
+!roll #d#[+/- #]: rolls dice for you. The first # is how many to roll, second is type of die [optional: + or - a third number]
 !reboot: reboots Terror. If this doesn't fix bugs, let Victor now
 `;
