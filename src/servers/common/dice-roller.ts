@@ -33,7 +33,7 @@ export function sendDMResponse(clientManager: ClientManager, serverID: SERVER_ID
             rollInput.replace(' ', '');
  
             let [numberOfDice, typeAndModifier]:any = rollInput.replace(' ', '').split('d');
-            let error = `I'm sorry, I couldn't parse that as a dice roll :\\ Expected format is #d#.`;
+            let error = `I'm sorry, I couldn't parse that as a dice roll :\\ Expected format is #d#[+/- #].`;
 
             if(!numberOfDice || !typeAndModifier) {
                 message.channel.send(error);
