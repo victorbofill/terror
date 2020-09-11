@@ -4,6 +4,7 @@ import { API_KEY, VICTOR_ID, KASEY_ID, SERVER_IDS } from '../../env';
 
 import { TheBoysServer } from '../servers/the-boys/the-boys';
 import { QuanServer } from '../servers/quan/quan';
+import { loadCommonDirectMessagServices } from '../servers/common/direct-messages';
 
 export class ClientManager implements IClientManager {
     mClient = undefined;
@@ -43,8 +44,10 @@ export class ClientManager implements IClientManager {
             const kasey = await this.mClient.users.fetch(KASEY_ID);
             this.mKaseyDM = await kasey.createDM();
     
+            loadCommonDirectMessagServices(this);
+
             this.loadErrorHandler();
-    
+            
             const theBoyseServer = new TheBoysServer();
             await theBoyseServer.init(this, SERVER_IDS.THE_BOYS);
     

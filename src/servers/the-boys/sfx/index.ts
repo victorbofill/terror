@@ -19,7 +19,7 @@ export const SERVER_SFX = new Map([
     ['he dead', `${serverDir}\\he dead.mp3`]
 ]);
 
-export const SOUND_BOARD = new Map();
+export const THE_BOYS_SOUND_BOARD = new Map();
 
 export function loadTheBoysSounds() {
     const soundBoardDir = `${sfxDir}\\sound-board`;
@@ -29,7 +29,7 @@ export function loadTheBoysSounds() {
             for (const sfx of items) {
                 const command: string = sfx.split('.')[0];
                 const file: string = `${soundBoardDir}\\${sfx}`;
-                SOUND_BOARD.set(command, file)
+                THE_BOYS_SOUND_BOARD.set(command, file)
             }
         }
     });

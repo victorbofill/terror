@@ -1,10 +1,16 @@
 import { VoiceConnection } from 'discord.js';
 import { ClientManager } from '../../clientManager/clientManager';
-import { SOUND_BOARD } from './sfx';
+import { THE_BOYS_SOUND_BOARD } from '../the-boys/sfx';
 import { TERROR_ID } from '../../../env';
-import { generateRollResult } from '../common/dice-roller';
+import { RESTRICTED_QUAN_DM_COMMANDS, RESTRICTED_QUAN_DM_PREFIXES } from '../quan/direct-messages';
+import {
+    dismissRestrictedCommands,
+    dismissRestrictedPrefixes,
+    RESTRICTED_COMMON_DM_COMMANDS,
+    RESTRICTED_COMMON_DM_PREFIXES
+} from '../common/direct-messages';
 
-export function loadDirectMessagServices(voiceConnection: VoiceConnection, clientManager: ClientManager) {
+export function loadTheBoysDirectMessagServices(voiceConnection: VoiceConnection, clientManager: ClientManager) {
     sendDMResponse(voiceConnection, clientManager);
 }
 
@@ -26,17 +32,13 @@ export async function sendDMResponse(voiceConnection: VoiceConnection, clientMan
                 dmChannel.send(help)
                 return;
             case '!help sfx':
-                dmChannel.send(`===SFX LIST=== ${logSFX(SOUND_BOARD)}`);
-                return;
-            case '!reboot':
-                console.log(message.author.username, ' initated reboot.');
-                await clientManager.rebootClient();
+                dmChannel.send(`===SFX LIST=== ${logSFX(THE_BOYS_SOUND_BOARD)}`);
                 return;
         }
 
         if(messageContent.toLowerCase().startsWith('!sfx ')) {
             const command = messageContent.substring(5);
-            const SFXPath = SOUND_BOARD.get(command.toLowerCase());
+            const SFXPath = THE_BOYS_SOUND_BOARD.get(command.toLowerCase());
             if(SFXPath) {
                 voiceConnection.play(SFXPath);
             } else {
@@ -45,12 +47,11 @@ export async function sendDMResponse(voiceConnection: VoiceConnection, clientMan
             return;
         }
 
-        if(messageContent.toLowerCase().startsWith('!roll ')) {
-            const response = await generateRollResult(messageContent, message);
-            dmChannel.send(response);
-            return;
-        }
-
+        if(
+            dismissRestrictedCommands(messageContent, [RESTRICTED_QUAN_DM_COMMANDS, RESTRICTED_COMMON_DM_COMMANDS])
+            || dismissRestrictedPrefixes(messageContent, [RESTRICTED_QUAN_DM_PREFIXES, RESTRICTED_COMMON_DM_PREFIXES])
+        ) return;
+        
         dmChannel.send(`'${messageContent}' is not a command. Type !help for help.`)
     });
 }
@@ -63,9 +64,14 @@ function logSFX(SFX: Map<string, string>) {
     return sfx;
 }
 
-const help: string = `== HELP MENU ==
+const help: string = `== THE BOYS HELP MENU ==
 !help sfx: lists all sfx
 !sfx [sound effect]: plays desired sound effect
-!roll #d#[+/- #]: rolls dice for you. The first # is how many to roll, second is type of die [optional: + or - a third number]
-!reboot: reboots Terror. If this doesn't fix bugs, let Victor now
 `;
+
+export const RESTRICTED_THE_BOYS_DM_COMMANDS = [
+    '!help sfx']
+
+export const RESTRICTED_THE_BOYS_DM_PREFIXES = [
+    '!sfx '
+]
