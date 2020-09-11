@@ -1,7 +1,7 @@
 import { VoiceConnection } from 'discord.js';
 import { ClientManager } from '../../clientManager/clientManager';
 import { QUAN_SOUND_BOARD, QUAN_MUSIC } from '../quan/sfx';
-import { TERROR_ID, VICTOR_ID } from '../../../env';
+import { TERROR_ID } from '../../../env';
 import { RESTRICTED_THE_BOYS_DM_COMMANDS, RESTRICTED_THE_BOYS_DM_PREFIXES } from '../the-boys/direct-messages';
 import {
     dismissRestrictedCommands,
@@ -32,18 +32,14 @@ export async function sendDMResponse(voiceConnection: VoiceConnection, clientMan
                 dmChannel.send(help)
                 return;
             case '!help quansfx':
-                if(message.author.id === VICTOR_ID) {
-                    dmChannel.send(`===SFX LIST=== ${logSFX(QUAN_SOUND_BOARD)}`);
-                    return;
-                } else break;
+                dmChannel.send(`===SFX LIST=== ${logSFX(QUAN_SOUND_BOARD)}`);
+                return;
             case '!help quanmusic':
-                if(message.author.id === VICTOR_ID) {
-                    dmChannel.send(`===MUSIC LIST=== ${logSFX(QUAN_MUSIC)}`);
-                } else break;
+                dmChannel.send(`===MUSIC LIST=== ${logSFX(QUAN_MUSIC)}`);
                 return;
         }
 
-        if(messageContent.toLowerCase().startsWith('!quansfx ') && message.author.id === VICTOR_ID) {
+        if(messageContent.toLowerCase().startsWith('!quansfx ')) {
             const command = messageContent.substring(9);
             const SFXPath = QUAN_SOUND_BOARD.get(command.toLowerCase());
             if(SFXPath) {
@@ -54,7 +50,7 @@ export async function sendDMResponse(voiceConnection: VoiceConnection, clientMan
             return;
         }
 
-        if(messageContent.toLowerCase().startsWith('!quanmusic ') && message.author.id === VICTOR_ID) {
+        if(messageContent.toLowerCase().startsWith('!quanmusic ')) {
             const command = messageContent.substring(11);
             const musicPath = QUAN_MUSIC.get(command.toLowerCase());
             if(musicPath) {

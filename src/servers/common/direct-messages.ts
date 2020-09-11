@@ -47,7 +47,7 @@ export async function sendDMResponse(clientManager: ClientManager) {
 
 const help: string = `== COMMON HELP MENU ==
 !roll #d#[+/- #]: rolls dice for you. The first # is how many to roll, second is type of die [optional: + or - a third number]
-!reboot: reboots Terror. If this doesn't fix bugs, let Victor now
+!reboot: reboots Terror. If this doesn't fix bugs, let Victor know
 `;
 
 export const RESTRICTED_COMMON_DM_COMMANDS = [
