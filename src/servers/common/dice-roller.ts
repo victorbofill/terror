@@ -39,7 +39,9 @@ export function sendRollResult(clientManager: ClientManager, serverID: SERVER_ID
 }
 
 export async function generateRollResult(messageContent: string, message: Message, serverID?: string): Promise<string> {
+    // remove !roll from the message
     const rollInput = messageContent.slice(6);
+    // remove all spaces, if any
     rollInput.replace(' ', '');
 
     let [numberOfDice, typeAndModifier]:any = rollInput.replace(' ', '').split('d');
@@ -70,27 +72,45 @@ export async function generateRollResult(messageContent: string, message: Messag
     let sum: any = 0;
     let successes: number = 0;
     let successDisplay: string = '';
-    let crits: number = 0;
-    let critDisplay: string = '';
     let modifiedHighest: string = '';
     let modifiedSum: string = '';
+    let critCount: number = 0;
+    let critSum: number = 0;
+    let critDisplay: string = '';
 
+    // roll as many dice as requested
     while(n) {
+        // roll the die type requested
         const result = Math.floor(Math.random() * type + 1);
+        // track the highest result
         highestResult = result > highestResult ? result : highestResult;
+        // track all results
         results.push(result);
+        // track sum of all rolls
         sum += result;
-        if(result > 5 && type === 10 && serverID === SERVER_IDS.THE_BOYS) successes++
-        result === 10 && type === 10 && serverID === SERVER_IDS.THE_BOYS ? crits++ : n--
+        // if playing Vampire, track successes
+        if(result > 5 && type === 10) successes++
+        // if playing Vampire, track critical successes
+        result === 10 && type === 10 ? critCount++ : n--;
     }
 
+    // sort the results from least to greatest
+    results.sort((a,b) => { return a - b });
+
+    // if a modifier exists, process it
     if(modifier) {
+        // create the expression of the modifiedHighest
         modifiedHighest = `${highestResult} ${operator} ${modifier}`;
+        // convert the expression into a number and record the result as a string
         highestResult = `${eval(modifiedHighest)} (${modifiedHighest})`;
+        
+        // create the expression of the modifiedSum
         modifiedSum = `${sum} ${operator} ${modifier}`;
+        // convert the expression into a number and record the result as a string
         sum = `${eval(modifiedSum)} (${modifiedSum})`;
     }
 
+    // if there are more than 10 results, reduce the length to 9 for display purposes
     if(results.length > 10) {
         results.length = 9;
         results.push('...');
@@ -103,17 +123,41 @@ export async function generateRollResult(messageContent: string, message: Messag
 
     let nickname: string = 'Your';
 
+    // retrieve the user's name, if possible
     if(serverID) {
         const user: GuildMember = await message.guild.members.fetch(message.author.id);
         nickname = user.nickname ? user.nickname : message.author.username;
         nickname += `'s`;
     };
 
-    if(serverID === SERVER_IDS.THE_BOYS && type === 10) {
+    // if playing Vampire, include successes in the display
+    if(type === 10) {
         successDisplay = `Successes: ${successes}     `;
-        critDisplay = `Crits: ${crits}     \n`;
-
     }
 
-    return `>>> == ${nickname} ${numberOfDice}d${type} results ==\n${successDisplay}${critDisplay}Highest: ${highestResult}     Sum: ${sum}     Results: [${results}]`;
+    // if playing Quan, calculate crits
+    if(type === 12 && results.includes(12)) {
+        // create a temporary array to use
+        const resultsIterator: any[] = Array.from(results);
+        critSum = 12;
+        // as long as another 12 exists, continue iterating
+        while(resultsIterator.length && resultsIterator.includes(12)) {
+            resultsIterator.length --
+            critSum += resultsIterator[resultsIterator.length - 1];
+        }
+        // once complete, include the modifier if it exists
+        if(modifier) critSum += modifier;
+    }
+
+    // if there is a critSum, include it in the display
+    if(critSum > 0) {
+        critDisplay += `Crit!! ${critSum}`;
+    }
+
+    // if there is a critCount, include it in the display
+    if(critCount > 0) {
+        critDisplay += `Crits: ${critCount}`;
+    }
+
+    return `>>> == ${nickname} ${rollInput} results ==\n${successDisplay}${critDisplay}\n Highest: ${highestResult}     Sum: ${sum}     Results: [${results}]`;
 }
