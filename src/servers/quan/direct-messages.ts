@@ -19,7 +19,7 @@ export async function sendDMResponse(voiceConnection: VoiceConnection, clientMan
         if(
             message.channel.type !== 'dm'
             || message.author.id === TERROR_ID
-            || message.author.id !== VICTOR_ID
+            || !(clientManager.mQuanMembers.includes(message.author.id))
         ) return;
 
         const dmChannel = message.channel;
@@ -31,20 +31,20 @@ export async function sendDMResponse(voiceConnection: VoiceConnection, clientMan
             case '!help':
                 dmChannel.send(help)
                 return;
-            case '!help dmsfx':
+            case '!help quansfx':
                 if(message.author.id === VICTOR_ID) {
                     dmChannel.send(`===SFX LIST=== ${logSFX(QUAN_SOUND_BOARD)}`);
                     return;
                 } else break;
-            case '!help dmmusic':
+            case '!help quanmusic':
                 if(message.author.id === VICTOR_ID) {
                     dmChannel.send(`===MUSIC LIST=== ${logSFX(QUAN_MUSIC)}`);
                 } else break;
                 return;
         }
 
-        if(messageContent.toLowerCase().startsWith('!dmsfx ') && message.author.id === VICTOR_ID) {
-            const command = messageContent.substring(7);
+        if(messageContent.toLowerCase().startsWith('!quansfx ') && message.author.id === VICTOR_ID) {
+            const command = messageContent.substring(9);
             const SFXPath = QUAN_SOUND_BOARD.get(command.toLowerCase());
             if(SFXPath) {
                 voiceConnection.play(SFXPath);
@@ -54,8 +54,8 @@ export async function sendDMResponse(voiceConnection: VoiceConnection, clientMan
             return;
         }
 
-        if(messageContent.toLowerCase().startsWith('!dmmusic ') && message.author.id === VICTOR_ID) {
-            const command = messageContent.substring(9);
+        if(messageContent.toLowerCase().startsWith('!quanmusic ') && message.author.id === VICTOR_ID) {
+            const command = messageContent.substring(11);
             const musicPath = QUAN_MUSIC.get(command.toLowerCase());
             if(musicPath) {
                 voiceConnection.play(musicPath);
@@ -83,18 +83,18 @@ function logSFX(SFX: Map<string, string>) {
 }
 
 const help: string = `== QUAN HELP MENU ==
-!help dmsfx: lists all sfx
-!help dmmusic: lists all music
-!dmmusic [music]: play desired music
-!dmsfx [sound effect]: plays desired sound effect
+!help quansfx: lists all sfx
+!help quanmusic: lists all music
+!quanmusic [music]: play desired music
+!quansfx [sound effect]: plays desired sound effect
 `;
 
 export const RESTRICTED_QUAN_DM_COMMANDS = [
-    '!help dmsfx',
-    '!help dmmusic'
+    '!help quansfx',
+    '!help quanmusic'
 ]
 
 export const RESTRICTED_QUAN_DM_PREFIXES = [
-    '!dmmusic ',
-    '!dmsfx '
+    '!quanmusic ',
+    '!quansfx '
 ]
