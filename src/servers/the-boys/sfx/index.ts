@@ -10,7 +10,9 @@ export const ENTRANCE_SFX = {
     JACY: `${introDir}\\civ.mp3`,
     KASEY: `${introDir}\\kasey.m4a`,
     SAM: `${introDir}\\halo.mp3`,
-    AUSTIN: `${introDir}\\mattress.mp3`
+    AUSTIN: `${introDir}\\mattress.mp3`,
+    BRADLEY: `${introDir}\\wilhelm.mp3`,
+    MICHAEL: `${introDir}\\toolshed.mp3`
 }
 
 const serverDir = `${sfxDir}\\server`

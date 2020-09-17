@@ -83,6 +83,12 @@ function playConnectionSFX(voiceConnection: VoiceConnection, clientManager: Clie
                 case MEMBER_IDS.get(THE_BOYS).VICTOR:
                     introSound = ENTRANCE_SFX.VICTOR;
                     break;
+                case MEMBER_IDS.get(THE_BOYS).BRADLEY:
+                    introSound = ENTRANCE_SFX.BRADLEY;
+                    break;
+                case MEMBER_IDS.get(THE_BOYS).MICHAEL:
+                    introSound = ENTRANCE_SFX.MICHAEL;
+                    break;
             }
             voiceConnection.play(introSound);
         }
