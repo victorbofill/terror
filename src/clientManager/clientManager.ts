@@ -1,6 +1,6 @@
 import { Client, DMChannel } from 'discord.js';
 import { IClientManager } from './clientManager-defs';
-import { API_KEY, VICTOR_ID, KASEY_ID, SERVER_IDS } from '../../env';
+import { API_KEY, VICTOR_ID, SERVER_IDS } from '../../env';
 
 import { TheBoysServer } from '../servers/the-boys/the-boys';
 import { QuanServer } from '../servers/quan/quan';
@@ -12,7 +12,6 @@ export class ClientManager implements IClientManager {
     mVictorDM = undefined;
     mQuanMembers = undefined;
     mBoysMembers = undefined;
-    mKaseyDM = undefined;
 
     async init() {
         await this.initiateClient();
@@ -40,9 +39,6 @@ export class ClientManager implements IClientManager {
     
             const victor = await this.mClient.users.fetch(VICTOR_ID);
             this.mVictorDM = await victor.createDM();
-    
-            const kasey = await this.mClient.users.fetch(KASEY_ID);
-            this.mKaseyDM = await kasey.createDM();
     
             loadCommonDirectMessagServices(this);
 
