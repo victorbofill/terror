@@ -7,7 +7,7 @@ const introDir = `${sfxDir}\\intros`
 export const ENTRANCE_SFX = {
     DEAN: `${introDir}\\bong.m4a`,
     VICTOR: `${introDir}\\wuba.wav`,
-    JACY: `${introDir}\\civ.mp3`,
+    JACY: `${introDir}\\jacy.mp3`,
     KASEY: `${introDir}\\kasey.m4a`,
     SAM: `${introDir}\\halo.mp3`,
     AUSTIN: `${introDir}\\mattress.mp3`,
