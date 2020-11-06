@@ -4,7 +4,7 @@ import { ClientManager } from '../../clientManager/clientManager';
 
 import { VOICE_CHANNEL_IDS, SERVER_IDS } from '../../../env';
 import { loadDiceRoller } from '../common/dice-roller';
-import { loadQuanDirectMessagServices } from './/direct-messages';
+import { loadQuanDirectMessagServices } from './direct-messages';
 import { loadQuanSounds, loadQuanMusic } from '../quan/sfx';
 
 export class QuanServer implements IQuanServer {

@@ -22,7 +22,7 @@ export function loadQuanMusic() {
 export const QUAN_SOUND_BOARD = new Map();
 
 export function loadQuanSounds() {
-    const soundBoardDir = `${sfxDir}\\quan-sound-board`;
+    const soundBoardDir = `${sfxDir}\\sound-board`;
 
     fs.readdir(soundBoardDir, (err, items) => {
         if(items?.length) {

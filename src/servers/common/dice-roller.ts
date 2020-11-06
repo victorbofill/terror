@@ -1,6 +1,6 @@
 import { Message, GuildMember } from 'discord.js';
 import { ClientManager } from '../../clientManager/clientManager';
-import { TERROR_ID, SERVER_IDS, CHAT_CHANNEL_IDS } from '../../../env';
+import { BOTTIE_ID, SERVER_IDS, CHAT_CHANNEL_IDS } from '../../../env';
 
 export function loadDiceRoller(clientManager: ClientManager, serverID: SERVER_IDS) {
     sendRollResult(clientManager, serverID);
@@ -11,7 +11,7 @@ export function sendRollResult(clientManager: ClientManager, serverID: SERVER_ID
     clientManager.getClient().on('message', async message => {
         if(
             message.channel.id !== channelID
-            || message.author.id === TERROR_ID
+            || message.author.id === BOTTIE_ID
         ) return;
 
         const messageContent = message.content.toLowerCase();
